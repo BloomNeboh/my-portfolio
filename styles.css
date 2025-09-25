@@ -3,7 +3,7 @@
   --card:#0f1720;
   --text:#e6eef8;
   --muted:#9fb0c6;
-  --accent:#f59e0b; /* english gold accent */
+  --accent:#f59e0b;
 }
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#061016 0%,var(--bg) 100%);color:var(--text);}
@@ -43,3 +43,41 @@ nav a{color:var(--muted);text-decoration:none;margin-left:18px}
 .intro.hidden{opacity:0;pointer-events:none;transition:opacity .6s ease}
 
 @media (max-width:900px){.hero{grid-template-columns:1fr;}.portrait-card img{width:100%;height:auto}}
+
+/* Contact logos */
+.contact-logos {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.contact-logos img {
+  width: 60px;
+  height: 60px;
+  filter: brightness(0.8);
+  transition: transform 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+
+.contact-logos img:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+.contact-logos a {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.6s forwards;
+}
+
+.contact-logos a:nth-child(1) { animation-delay: 0.2s; }
+.contact-logos a:nth-child(2) { animation-delay: 0.4s; }
+.contact-logos a:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
