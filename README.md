@@ -1,0 +1,1 @@
+# Eliud Mchome — Portfolio Website\n\nA single-page portfolio site for Eliud (Neboh).\n\n## Features\n- Story-driven About section.\n- English gold accent color.\n- 7s intro animation (writing the letter E).\n- Downloadable CV link.\n- Responsive design.\n
