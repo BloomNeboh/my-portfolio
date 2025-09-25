@@ -1,30 +1,54 @@
-// Animate the E path for ~7s then hide intro
-(function(){
-  const path = document.getElementById('E-path');
-  const intro = document.getElementById('intro');
-  const len = path.getTotalLength();
-  path.style.strokeDasharray = len;
-  path.style.strokeDashoffset = len;
-  path.getBoundingClientRect();
-  const duration = 7000; // 7 seconds
-  const start = performance.now();
-  function step(now){
-    const t = Math.min((now - start)/duration,1);
-    const eased = t<.5 ? 2*t*t : -1 + (4-2*t)*t; // ease in-out
-    path.style.strokeDashoffset = Math.round(len * (1 - eased));
-    if(t<1) requestAnimationFrame(step);
-    else{
-      intro.classList.add('hidden');
-      setTimeout(()=>intro.style.display='none',600);
-    }
-  }
-  requestAnimationFrame(step);
-})();
+document.addEventListener('DOMContentLoaded', () => {
 
-// Smooth scroll for header links
-document.querySelectorAll('nav a').forEach(a=>{
-  a.addEventListener('click',e=>{
-    e.preventDefault();
-    document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'});
+  // Intro E-writing animation
+  const intro = document.getElementById('intro');
+  const path = document.getElementById('E-path');
+  path.style.strokeDasharray = path.getTotalLength();
+  path.style.strokeDashoffset = path.getTotalLength();
+
+  setTimeout(() => {
+    path.style.transition = "stroke-dashoffset 7s linear";
+    path.style.strokeDashoffset = 0;
+  }, 100);
+
+  setTimeout(() => {
+    intro.classList.add('hidden');
+  }, 7500);
+
+  // Animate sections on scroll
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  sections.forEach(section => {
+    section.classList.add('section-animate');
+    observer.observe(section);
   });
+
+  // Animate contact logos when contact section is visible
+  const contactSection = document.getElementById('contact');
+  const logos = document.querySelectorAll('.contact-logos a');
+
+  const logoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        logos.forEach((logo, index) => {
+          setTimeout(() => {
+            logo.style.opacity = '1';
+            logo.style.transform = 'translateY(0)';
+          }, index * 200); // staggered animation
+        });
+        logoObserver.unobserve(contactSection);
+      }
+    });
+  }, { threshold: 0.25 });
+
+  logoObserver.observe(contactSection);
+
 });
